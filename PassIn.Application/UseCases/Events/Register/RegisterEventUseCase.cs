@@ -7,7 +7,7 @@ namespace PassIn.Application.UseCases.Events.Register
 {
     public class RegisterEventUseCase
     {
-        public ResponseRegisteredEventJson Execute(RequestEventJson request)
+        public ResponseRegisteredJson Execute(RequestEventJson request)
         {
             Validate(request);
 
@@ -23,7 +23,7 @@ namespace PassIn.Application.UseCases.Events.Register
             dbContext.Events.Add(entity);
             dbContext.SaveChanges();
 
-            return new ResponseRegisteredEventJson
+            return new ResponseRegisteredJson
             {
                 Id = entity.Id
             };
@@ -33,18 +33,18 @@ namespace PassIn.Application.UseCases.Events.Register
         {
             if(request.MaximumAttendees <= 0)
             {
-                throw new PassInException("Number of attendees is invalid");
+                throw new ErrorOnValidationException("Number of attendees is invalid");
             }
 
             if (string.IsNullOrWhiteSpace(request.Title))
             {
-                throw new PassInException("Invalid title");
+                throw new ErrorOnValidationException("Invalid title");
             }
 
 
             if (string.IsNullOrWhiteSpace(request.Details))
             {
-                throw new PassInException("Invalid details");
+                throw new ErrorOnValidationException("Invalid details");
             }
         }
     }
